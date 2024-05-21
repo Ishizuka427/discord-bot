@@ -25,10 +25,11 @@ async def on_command_error(ctx, error):
 async def on_message(message):
     if message.author == bot.user:
         return
-    if bot.user.id in [member.id for member in message.mentions]:
-        print(message.content)
-        print(message.content.split('>')[1].lstrip())
-        messages.append({"role": "user", "content": message.content.split('>')[1].lstrip()})
+    if bot.user in message.mentions:
+        # メッセージからボットへのメンションを削除
+        content = message.content.replace(f'<@!{bot.user.id}>', '').strip()
+        print(content)
+        messages.append({"role": "user", "content": content})
 
         openai_api_key = getenv('OPENAI_API_KEY')
         openai.api_key = openai_api_key
