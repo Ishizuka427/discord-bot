@@ -33,13 +33,13 @@ async def on_message(message):
         openai_api_key = getenv('OPENAI_API_KEY')
         openai.api_key = openai_api_key
 
-        response = openai.chat.models.davinci.Codex.create(
-            model="gpt-3.5-turbo",
-            messages=messages
+        response = openai.Completion.create(
+            engine="text-davinci-002",
+            prompt=content,
+            max_tokens=150
         )
 
         print(response['choices'][0]['message']['content'])
         await message.channel.send(response['choices'][0]['message']['content'])
-
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
