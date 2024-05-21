@@ -33,7 +33,7 @@ async def on_message(message):
         openai_api_key = getenv('OPENAI_API_KEY')
         openai.api_key = openai_api_key
 
-        response = openai.chat.completions.create(
+        response = openai.chat.models.davinci.Codex.create(
             model="gpt-3.5-turbo",
             messages=messages
         )
