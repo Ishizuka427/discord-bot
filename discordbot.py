@@ -3,7 +3,9 @@ import traceback
 from discord.ext import commands
 from os import getenv
 import openai
+import logging
 
+logging.basicConfig(level=logging.INFO)
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -28,7 +30,7 @@ async def on_message(message):
     if bot.user in message.mentions:
         # メッセージからボットへのメンションを削除
         content = message.content.replace(f'<@!{bot.user.id}>', '').strip()
-        print(content)
+        logging.info(f'Received message: {content}')
         messages.append({"role": "user", "content": content})
 
         openai_api_key = getenv('OPENAI_API_KEY')
@@ -39,7 +41,7 @@ async def on_message(message):
             messages=messages
         )
 
-        print(completion.choices[0].message.content)
+        logging.info(f'Sending message: {completion.choices[0].message.content}')
         await message.channel.send(completion.choices[0].message.content)
 
 token = getenv('DISCORD_BOT_TOKEN')
