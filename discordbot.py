@@ -2,18 +2,14 @@ import discord
 import traceback
 from discord.ext import commands
 from os import getenv
-import openai
+from openai import OpenAI
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-messages = [
-    {"role": "system", "content": "You are a helpful assistant. The AI assistant's name is AI Qiitan."},
-    {"role": "user", "content": "こんにちは。あなたは誰ですか？"},
-    {"role": "assistant", "content": "私は AI アシスタントの AI Qiitan です。なにかお手伝いできることはありますか？"}
-]
+client = OpenAI(api_key=getenv('OPENAI_API_KEY'))
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -29,10 +25,7 @@ async def on_message(message):
         print(message.content)
         content = message.content.split('>')[1].lstrip()
 
-        openai_api_key = getenv('OPENAI_API_KEY')
-        openai.api_key = openai_api_key
-
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
