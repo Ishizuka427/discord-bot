@@ -33,8 +33,8 @@ async def on_message(message):
             ]
         )
 
-        print(response.choices[0].message['content'])
-        await message.channel.send(response.choices[0].message['content'])
+        print(response.choices[0].message.content)
+        await message.channel.send(response.choices[0].message.content)
 
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
