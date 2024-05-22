@@ -26,7 +26,7 @@ async def on_message(message):
         content = message.content.split('>')[1].lstrip()
 
         response = client.chat.completions.create(
-            model="text-embedding-3-small",
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": content}
